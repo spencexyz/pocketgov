@@ -1,0 +1,3 @@
+rootProject.name = 'pocketgov'
+
+include ':app'
