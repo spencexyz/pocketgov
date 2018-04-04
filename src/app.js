@@ -3,7 +3,8 @@ import {
   View,
   NetInfo,
   Alert,
-  Text
+  Text,
+  Image
 } from 'react-native'
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
@@ -11,6 +12,7 @@ import { createStore, applyMiddleware } from 'redux'
 import { StackNavigator } from 'react-navigation'
 import FormScreen from './screens/FormScreen'
 import reducers from './reducers'
+import Drawer from './components/Drawer'
 
 class App extends Component {
   constructor() {
@@ -19,16 +21,20 @@ class App extends Component {
 
   render() {
     const Navigator = StackNavigator({
+        Drawer: { 
+          screen: Drawer
+        },
         Home: { 
           screen: FormScreen,
         },
       }, {
-        initialRouteName: 'Home',
+        initialRouteName: 'Drawer',
         headerMode: 'screen',
         navigationOptions: {
           headerStyle: {
             backgroundColor: '#0b59a0',
           },
+          headerTitle: <View style={{alignSelf: 'center', alignContent: 'center', padding: 3}}><Image style={{flex: 1,resizeMode: 'contain'}} source={require('./pocketgov_logo.png')}/></View>,
           headerTitleStyle: {
             color: 'white',
           },

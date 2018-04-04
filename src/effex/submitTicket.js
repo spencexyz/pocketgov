@@ -198,8 +198,6 @@ export default async function submitTicket({action, dispatch, getState}: EffectP
 
   requestBody.Comments += '   \n\n\n******* sent via iOS mobile app *******';
 
-  console.log(requestBody);
-
   let postResp;
 
   //submits the form
@@ -254,5 +252,5 @@ export default async function submitTicket({action, dispatch, getState}: EffectP
     throw('Could not load stop departures', error);
   }
 
-  dispatch(ApiActions.updateResponse({response: postResp}));
+  dispatch(ApiActions.updateResponse({ response: postResp }));
 }

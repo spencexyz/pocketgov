@@ -34,10 +34,6 @@ const options = {
 };
 
 class HomeScreen extends Component {
-  static navigationOptions = {
-    headerTitle: <View style={{alignSelf: 'center', alignContent: 'center', padding: 3}}><Image style={{flex: 1,resizeMode: 'contain'}} source={require('../pocketgov_logo.png')}/></View>
-  }
-
   constructor() {
     super();
 
