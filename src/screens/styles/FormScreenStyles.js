@@ -114,12 +114,17 @@ export default StyleSheet.create({
   },
   errorMsg: {
     color: '#f44336',
-    fontSize: 25,
-    fontWeight: '700',
-    padding: 20
+    paddingLeft: 15,
+    marginTop: 8,
+    marginBottom: -10
   },
   successMsg: {
     color: '#66BB6A',
+    paddingLeft: 15,
+    marginTop: 8,
+    marginBottom: -10
+  },
+  modalText: {
     fontSize: 25,
     fontWeight: '700',
     padding: 20
