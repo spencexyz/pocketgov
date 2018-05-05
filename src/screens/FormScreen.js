@@ -5,7 +5,9 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  ActivityIndicator
+  ActivityIndicator,
+  Modal,
+  TouchableHighlight
 } from 'react-native'
 import React, { Component } from 'react'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -38,6 +40,9 @@ class HomeScreen extends Component {
     super();
 
     this.state = {
+      containerKey: 1,
+      phoneVis: false,
+      emailVis: false,
       typeOfProblem: 0,
       typeOfProperty: 0,
       typeOfBranch: 0,
@@ -295,6 +300,174 @@ class HomeScreen extends Component {
         }
       });
     }
+  }
+
+  reset() {
+    this.setState({
+      containerKey: new Date(),
+      phoneVis: false,
+      emailVis: false,
+      typeOfProblem: 0,
+      typeOfProperty: 0,
+      typeOfBranch: 0,
+      graffitiPropertyType: 0,
+      graffitiFirstFloor: 0,
+      graffitiProfane: 0,
+      illegalParkingProperty: 0,
+      loadingImage: false,
+      loading: false,
+      pothole1Val: 0,
+      pothole2Val: 0,
+      pothole3Val: 0,
+      pothole4Val: 0,
+      pothole5Val: 0,
+      pothole6Val: 0,
+      trash1Val: 0,
+      trash2Val: 0,
+      trash3Val: 0,
+      trash4Val: 0,
+      trash5Val: 0,
+      trash6Val: 0,
+      image: null,
+      imageMsg: null,
+      imageUri: '',
+      illegalParkingAddress: '',
+      illegalPlateNumber: '',
+      missedTrashLocation: '',
+      problemDesc: '',
+      address: '',
+      phone: '',
+      email: '',
+      latitude: null,
+      longitude: null,
+      anonymousVis: true,
+      addressVis: true,
+      currentLocation: false,
+      response: {
+        status: null,
+        _bodyInit: null
+      },
+      problemPickerOptions: [
+        'Select an Option...',
+        'Abandoned Vehicle',
+        'Animal Complaint',
+        'Damaged/Fallen Tree',
+        'Graffiti',
+        'Illegal Parking',
+        'Neighborhood Issue',
+        'Pothole',
+        'Snow on Sidewalk',
+        'Snow on Street',
+        'Trash/Recycle/Compost Collection or Cart Issue',
+        'Other'
+      ],
+      propertyPickerOptions: [
+        'Select an Option...',
+        'Private Property',
+        'Public Property',
+        'Unknown'
+      ],
+      treePickerOptions: [
+        'Select an Option...',
+        'Arm',
+        'Leg',
+        'Waist'
+      ],
+      graffitiPropertyPickerOptions: [
+        'Select an Option...',
+        'Park',
+        'Private',
+        'Public',
+        'RTD'
+      ],
+      graffitiPickerOptions: [
+        'Select an Option...',
+        'No',
+        'Unknown (provide description)',
+        'Yes'
+      ],
+      pothole1PickerOptions: [
+        'Select an Option...',
+        'Alley',
+        'Gutter',
+        'Street'
+      ],
+      pothole2PickerOptions: [
+        'Select an Option...',
+        'Asphalt',
+        'Concrete'
+      ],
+      pothole3PickerOptions: [
+        'Select an Option...',
+        'North',
+        'South',
+        'East',
+        'West'
+      ],
+      pothole4PickerOptions: [
+        'Select an Option...',
+        'Both',
+        'Left',
+        'Right'
+      ],
+      pothole5PickerOptions: [
+        'Select an Option...',
+        'Low Manhole Cover',
+        'Pothole',
+        'Service Cut (small cut in pavement)'
+      ],
+      pothole6PickerOptions: [
+        'Select an Option...',
+        'No',
+        'Unknown',
+        'Yes'
+      ],
+      trash1PickerOptions: [
+        'Select an Option...',
+        'Cancel',
+        'Damaged',
+        'Missed',
+        'Other (please describe)',
+        'Problem',
+        'Replacement',
+        'Sign Up'
+      ],
+      trash2PickerOptions: [
+        'Select an Option...',
+        'Auto Cart',
+        'Compost',
+        'Dumpster',
+        'Extra Trash',
+        'Manual',
+        'Recycle'
+      ],
+      trash3PickerOptions: [
+        'Select an Option...',
+        'Cart Cracked',
+        'Lid',
+        'Other (please describe)',
+        'Wheel'
+      ],
+      trash4PickerOptions: [
+        'Select an Option...',
+        'No',
+        'Yes'
+      ],
+      trash5PickerOptions: [
+        'Select an Option...',
+        '35',
+        '65',
+        '95',
+        'Unknown'
+      ],
+      trash6PickerOptions: [
+        'Select an Option...',
+        'Black (trash)',
+        'Dumpster',
+        'Green (compost)',
+        'Purple (recycle)'
+      ]
+    });
   }
 
   openCamera() {
@@ -854,25 +1027,25 @@ class HomeScreen extends Component {
   renderExtraQuestions(question) {
     switch(question) {
       case 1:
-          return this.renderAbandonedVehicleExpansion();
-          break;
+        return this.renderAbandonedVehicleExpansion();
+        break;
       case 3:
-          return this.renderTreeExpansion();
-          break;
+        return this.renderTreeExpansion();
+        break;
       case 4:
-          return this.renderGraffitiExpansion();
-          break;
+        return this.renderGraffitiExpansion();
+        break;
       case 5:
-          return this.renderIllegalParkingGraffitiExpansion();
-          break;
+        return this.renderIllegalParkingGraffitiExpansion();
+        break;
       case 7:
-          return this.renderPotholeExpansion();
-          break;
+        return this.renderPotholeExpansion();
+        break;
       case 10:
-          return this.renderTrashExpansion();
-          break;
+        return this.renderTrashExpansion();
+        break;
       default:
-          return null;
+        return null;
     }
   }
 
@@ -1226,6 +1399,7 @@ class HomeScreen extends Component {
       <KeyboardAwareScrollView 
         style={styles.container}
         extraScrollHeight={50}
+        key={this.state.containerKey}
       >
         <View style={styles.headerContainer}>
           <Text style={[styles.header, {paddingTop: 0}]}>Type of Problem</Text>
@@ -1351,7 +1525,22 @@ class HomeScreen extends Component {
           <Text style={styles.errorMsg}>Form not submitted. See errors above.</Text>:
           null
         }
-        {this.renderMsg}
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.response.status ? true : false}
+          onRequestClose={() => this.setState({response: { status: null, _bodyInit: null }})}>
+          <View style={{marginTop: 22, flex: 1}}>
+            <View style={{ flex: 1 }}>
+              {this.renderMsg}
+              <TouchableHighlight
+                style={[styles.buttonContainer, { backgroundColor: '#7E57C2', position: 'absolute', bottom: 50, left: 10, right: 10 }]}
+                onPress={() => this.reset()}>
+                <Text style={styles.buttonText}>Close</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+        </Modal>
         <TouchableOpacity
           accessibilityTraits={'button'}
           onPress={() => this.validate()}
