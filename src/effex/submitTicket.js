@@ -196,7 +196,7 @@ export default async function submitTicket({action, dispatch, getState}: EffectP
     // no extra questions, so Questions stays as []
   }
 
-  requestBody.Comments += '   \n\n\n******* sent via iOS mobile app *******';
+  // requestBody.Comments += '   \n\n\n******* sent via iOS mobile app *******';
 
   let postResp;
 

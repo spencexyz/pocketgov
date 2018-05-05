@@ -838,10 +838,14 @@ class HomeScreen extends Component {
   }
 
   get renderMsg() {
+    console.log('response');
+    console.log(this.state.response);
     if (this.state.response.status === 201) {
       return <Text style={styles.successMsg}>Your ticket has been submitted!{"\n"}(No. {this.state.response._bodyInit})</Text>;
     } else if (this.state.response.status === 500) {
       return <Text style={styles.errorMsg}>Error! {this.state.response._bodyInit}</Text>;
+    } else if (this.state.response.status === 400) {
+      return <Text style={styles.errorMsg}>Hmm... We're not sure why this isn't working. Please contact us via the feedback form.</Text>;
     } else {
       return null;
     }

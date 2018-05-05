@@ -34,7 +34,7 @@ class App extends Component {
           headerStyle: {
             backgroundColor: '#0b59a0',
           },
-          headerTitle: <View style={{alignSelf: 'center', alignContent: 'center', padding: 3}}><Image style={{flex: 1,resizeMode: 'contain'}} source={require('./pocketgov_logo.png')}/></View>,
+          headerTitle: <View style={{alignSelf: 'center', alignContent: 'center'}}><Image style={{flex: 1, width: 100}} source={require('./pocketgov_logo2.png')}/></View>,
           headerTitleStyle: {
             color: 'white',
           },

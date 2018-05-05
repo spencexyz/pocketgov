@@ -4,7 +4,9 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
-  StyleSheet
+  StyleSheet,
+  Clipboard,
+  Alert
 } from 'react-native'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -42,10 +44,48 @@ class DrawerScreen extends Component {
     }.bind(this), 2000);
   }
 
+  validateEmail(email) {
+    var re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  }
+
   submit() {
+    if (!this.state.email) {
+      Alert.alert(
+        'Not just yet!',
+        'We need your email so that we can follow up with you.',
+        [
+          {text: 'Add Email'},
+        ]
+      );
+      return;
+    } else if (!this.validateEmail(this.state.email)) {
+      Alert.alert(
+        'Invalid email.',
+        'There is an issue with the format of your email. Please try again.',
+        [
+          {text: 'OK'},
+        ]
+      );
+      return;
+    } else if (!this.state.msg) {
+      Alert.alert(
+        'Woah there!',
+        'What\'s your message?',
+        [
+          {text: 'Add Message'},
+        ]
+      );
+      return;
+    }
     this.setState({ loading: true });
     this.props.dispatch(ApiActions.submitFeedback(this.state));
   }
+
+  writeToClipboard = async () => {
+    await Clipboard.setString('https://itunes.apple.com/us/app/pocketgov/id1335773975');
+    alert('Copied to Clipboard!');
+  };
 
   render() {
     return (
@@ -78,7 +118,7 @@ class DrawerScreen extends Component {
         <TouchableOpacity
           accessibilityTraits={'button'}
           onPress={() => this.submit()}
-          style={[styles.buttonContainer, { marginBottom: 10 }]}
+          style={styles.buttonContainer}
         >
           <View>
             {this.state.loading ?
@@ -88,6 +128,16 @@ class DrawerScreen extends Component {
           </View>
         </TouchableOpacity>
         <Text style={{ textAlign: 'center' }}>{this.state.feedbackResp}</Text>
+        <View style={{ alignItems: 'center' }}>
+          <Text style={{ marginBottom: 3 }}>Share this app with others!</Text>
+          <TouchableOpacity
+            onPress={() => this.writeToClipboard()}
+          >
+            <View>
+              <Text style={styles.link}>Copy to Clipboard</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -125,6 +175,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '700'
   },
+  link: {
+    fontWeight: '600',
+    textDecorationLine: 'underline',
+    color: '#00B0FF',
+  }
 });
 
 const mapStateToProps = (state) => {

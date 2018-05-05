@@ -7,7 +7,8 @@ import {
   StyleSheet,
   Platform,
   ActivityIndicator,
-  Alert
+  Alert,
+  ScrollView
 } from 'react-native';
 import React, { Component } from 'react';
 import DrawerScreen from './DrawerScreen';
@@ -39,9 +40,9 @@ class CustomDrawerContentComponent extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <DrawerScreen />
-      </View>
+      </ScrollView>
     );
   }
 };
