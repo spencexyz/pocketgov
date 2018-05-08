@@ -211,7 +211,7 @@ export default async function submitTicket({action, dispatch, getState}: EffectP
         requestBody
       )
     });
-    console.log(post);
+
     postResp = post;
 
     if (post.status === 201 && CONFIG.AIRTABLE_ZAP) {
@@ -232,6 +232,27 @@ export default async function submitTicket({action, dispatch, getState}: EffectP
       }
 
       //pings me in Slack
+      try {
+        let post = await fetch(CONFIG.SLACK_ZAP, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(
+            requestBody
+          )
+        });
+        // return post;
+      } catch(error) {
+        throw('Could not load stop departures', error);
+      }
+    } else {
+      if (data.phone) {
+        requestBody.ContactPhone = data.phone + ' **** ERROR';
+      } else if (data.email) {
+        requestBody.ContactEmail = data.email + ' **** ERROR';
+      }
+
       try {
         let post = await fetch(CONFIG.SLACK_ZAP, {
           method: 'POST',
