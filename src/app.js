@@ -11,6 +11,7 @@ import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import { StackNavigator } from 'react-navigation'
 import FormScreen from './screens/FormScreen'
+import DenverPostScreen from './screens/DenverPostScreen'
 import reducers from './reducers'
 import Drawer from './components/Drawer'
 
@@ -27,6 +28,9 @@ class App extends Component {
         Home: { 
           screen: FormScreen,
         },
+        Post: {
+          screen: DenverPostScreen
+        }
       }, {
         initialRouteName: 'Drawer',
         headerMode: 'screen',

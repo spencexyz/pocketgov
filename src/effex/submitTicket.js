@@ -200,12 +200,21 @@ export default async function submitTicket({action, dispatch, getState}: EffectP
 
   let postResp;
 
+  console.log('requestBody');
+  console.log(requestBody);
+
   //submits the form
   try {
     let post = await fetch('https://www.denvergov.org/api/AskDenver/Cases', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Encoding': 'application/json, text/plain, */*',
+        // 'Connection': 'keep-alive',
+        'Content-Type': 'application/json;charset=UTF-8',
+        'Host': 'www.denvergov.org',
+        'Origin': 'https://www.denvergov.org',
+        'Refer': 'https://www.denvergov.org/pocketgov/'
       },
       body: JSON.stringify(
         requestBody
@@ -213,6 +222,9 @@ export default async function submitTicket({action, dispatch, getState}: EffectP
     });
 
     postResp = post;
+
+    console.log('post');
+    console.log(post);
 
     if (post.status === 201 && CONFIG.AIRTABLE_ZAP) {
       //adds to Airtable

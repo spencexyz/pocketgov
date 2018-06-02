@@ -7,10 +7,12 @@ import {
   Image,
   ActivityIndicator,
   Modal,
-  TouchableHighlight
+  TouchableHighlight,
+  ScrollView
 } from 'react-native'
 import React, { Component } from 'react'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import Hyperlink from 'react-native-hyperlink'
 import ImagePicker from 'react-native-image-picker'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import styles from './styles/FormScreenStyles'
@@ -21,6 +23,7 @@ import dismissKeyboard from 'dismissKeyboard'
 // import InputItem from '../components/InputItem'
 // import CustomButton from '../components/CustomButton'
 import ApiActions from '../actions/ApiActions'
+import LocalStorage from '../utils/LocalStorage'
 // import PrefActions from '../actions/PrefActions'
 // import { trackWithProperties } from '../utils/Analytics'
 import ListItemPicker from '../components/ListItemPicker'
@@ -40,6 +43,7 @@ class HomeScreen extends Component {
     super();
 
     this.state = {
+      msgVis: false,
       containerKey: 1,
       phoneVis: false,
       emailVis: false,
@@ -235,6 +239,30 @@ class HomeScreen extends Component {
         loading: false
       });
     }
+  }
+
+  toPostPage() {
+    this.props.navigation.navigate('Post');
+    this.saveToLocal();
+  }
+
+  async componentWillMount() {
+    await this.fetchFromLocal();
+  }
+
+  async fetchFromLocal() {
+    const msg = await LocalStorage.getObjData('FarewellMsg');
+
+    if (msg) {
+      this.setState({ msgVis: false });
+    } else {
+      this.setState({ msgVis: true });
+    }
+  }
+
+  saveToLocal() {
+    this.setState({ msgVis: false });
+    LocalStorage.saveObjData('FarewellMsg', true);
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -1551,6 +1579,57 @@ class HomeScreen extends Component {
             }
           </View>
         </TouchableOpacity>
+        <Modal
+          animationType={'slide'}
+          transparent={false}
+          visible={this.state.msgVis}
+          onRequestClose={() => this.saveToLocal()}
+        >
+          <ScrollView style={styles.msgContainer}>
+            <Text style={styles.msgPara}>
+              It looks like the City of Denver has shut this volunteer project down. We've noticed an uptick in errors 
+              when trying to report problems that appear to be caused by the City rejecting them.
+            </Text>
+            <Text style={styles.msgPara}>
+              This project was started to give residents of Denver an easier way to use the Report a Problem form that the 
+              City has on their website. The City has made it clear that, for some reason, they do not welcome free volunteer 
+              efforts that seek to improve the day to day lives of Denver Residents.
+            </Text>
+            <Text style={styles.msgPara}>
+              Thank you to all who used this app and shared it with your friends. The app will remain up as some problems go through 
+              still, but most do not.
+            </Text>
+            <Hyperlink
+              linkDefault={ true }
+              linkStyle={ { color: '#2980b9', fontSize: 16, fontWeight: '700' } }
+              linkText={ url => url === 'https://twitter.com/cityofdenver' ? 'Twitter' : url }
+            >
+              <Text style={styles.msgPara}>
+                If this frustrates you and you want this app to work again like it used to, please let the City know how you feel. 
+                You can reach out to them via https://twitter.com/cityofdenver.
+              </Text>
+            </Hyperlink>
+            <Hyperlink
+              onPress={ (url, text) => this.toPostPage() }
+              linkStyle={ { color: '#2980b9', fontSize: 16, fontWeight: '700' } }
+              linkText={ url => url === 'https://github.com/obipawan/hyperlink' ? 'Fill out this box' : url }
+            >
+              <Text style={styles.msgPara}>
+                The Denverite is also curious to hear what you think. They are looking into why the City has shut us down - 
+                as they have ignored all of my inquiries. https://github.com/obipawan/hyperlink and express your thoughts/concerns/frustrations.
+              </Text>
+            </Hyperlink>
+            <Text style={[styles.msgPara, { marginBottom: 30 }]}>
+              We're looking for other projects to work on - whether that is improving existing systems or building whole new ones. 
+              If you have any ideas for what you'd like to see built please let us know via the feedback form on the side.
+            </Text>
+            <TouchableHighlight
+              style={[styles.buttonContainer, { marginBottom: 50 }]}
+              onPress={() => this.saveToLocal()}>
+              <Text style={styles.buttonText}>Close this Message</Text>
+            </TouchableHighlight>
+          </ScrollView>
+        </Modal>
       </KeyboardAwareScrollView>
     );
   }

@@ -17,6 +17,12 @@ export default (state = INITIAL_STATE, action) => {
         feedbackResp: action.payload.response,
         status: action.payload.status,
       };
+    case ActionType.DENVER_POST_RESP:
+      return {
+        ...state,
+        dpResp: action.payload.response,
+        dpStatus: action.payload.status
+      }
     default:
       return state;
   }

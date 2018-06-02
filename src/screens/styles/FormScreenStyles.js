@@ -128,5 +128,12 @@ export default StyleSheet.create({
     fontSize: 25,
     fontWeight: '700',
     padding: 20
+  },
+  msgPara: {
+    paddingTop: 10,
+    fontSize: 16
+  },
+  msgContainer: {
+    padding: 10,
   }
 });

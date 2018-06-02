@@ -28,4 +28,18 @@ export default class Actions {
       payload: action
     }
   }
+
+  static submitDenverPost(action) {
+    return {
+      type: ActionTypes.DENVER_POST,
+      payload: action
+    }
+  }
+
+  static denverPostResp(action) {
+    return {
+      type: ActionTypes.DENVER_POST_RESP,
+      payload: action
+    }
+  }
 }
